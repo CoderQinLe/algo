@@ -6,12 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DYNAMIC_ARRAY_SIZE       100     /* 动态数组的大小 */
+
 /* 动态数组结构体的定义 */
 typedef struct array 
 {
-    int size;       /* 动态数组大小 */
-    int used;       /* 已经使用的大小 */
-    int *arr;       /* 动态数组指针 */
+    int sumSize;        /* 动态数组大小 */
+    int usedSize;       /* 已经使用的大小 */
+    int *arr;           /* 动态数组指针 */
 } DYNAMIC_ARRAY_T;
 
 /* 动态数组的遍历 */
@@ -19,7 +21,7 @@ void DyArray_dump(DYNAMIC_ARRAY_T *array)
 {
     int index;
 
-    for (index = 0; index < array->used; index++)
+    for (index = 0; index < array->usedSize; index++)
     {
         printf("[%02d]: %08d\n", index, array->arr[index]);
     }
@@ -29,19 +31,18 @@ void DyArray_dump(DYNAMIC_ARRAY_T *array)
 int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
 {
     int index = 0;
-    if (array->used >= array->size)
+    if (array->usedSize >= array->sumSize)
     {
         return -1;
     }
 
     /* 插入元素：从小到大的顺序排序，重复 不插入 */
-    for (index = 0; index < array->used; index++) 
+    for (index = 0; index < array->usedSize; index++) 
     {
         if (elem == array->arr[index])
         {
             return index;
         }
-
 
         /* 满足条件，插入 */
         if (elem < array->arr[index])
@@ -53,20 +54,20 @@ int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
 
     /* 插入尾部 */     
     array->arr[index] = elem;
-    array->used++;
+    array->usedSize++;
     return index;
 }
 
 /* 动态数组删除操作 */
 int DyArray_delete(DYNAMIC_ARRAY_T *array, int index)
 {
-    if (index < 0 || index >= array->used)
+    if (index < 0 || index >= array->usedSize)
     {
         return -1;
     }
     
-    memmove(&array->arr[index], &array->arr[index+1], (array->used - index - 1) * sizeof(int));
-    array->used--;
+    memmove(&array->arr[index], &array->arr[index+1], (array->usedSize - index - 1) * sizeof(int));
+    array->usedSize--;
     return 0;
 }
 
@@ -75,7 +76,7 @@ int DyArray_search(DYNAMIC_ARRAY_T *array, int elem)
 {
     int index = 0;
 
-    for (index = 0; index < array->used; index++) 
+    for (index = 0; index < array->usedSize; index++) 
     {
         if (array->arr[index] == elem)
         {
@@ -94,9 +95,9 @@ int DyArray_search(DYNAMIC_ARRAY_T *array, int elem)
 /* 动态数组初始化操作 */
 int DyArray_init(DYNAMIC_ARRAY_T *DArray, int ArraySize)
 {
-    DArray->size = ArraySize;
-    DArray->used = 0;
-    DArray->arr  = (int *)malloc(ArraySize * sizeof(int));
+    DArray->sumSize = ArraySize;
+    DArray->usedSize = 0;
+    DArray->arr = (int *)calloc(ArraySize * sizeof(int));
     if (NULL == DArray->arr)
     {
         return -1;
@@ -107,12 +108,11 @@ int DyArray_init(DYNAMIC_ARRAY_T *DArray, int ArraySize)
 /* 动态数组    去初始化操作 */
 int DyArray_finit(DYNAMIC_ARRAY_T *DArray)
 {
-    DArray->size = 0;
-    DArray->used = 0;
+    DArray->sumSize = 0;
+    DArray->usedSize = 0;
     free(DArray->arr);
 }
 
-/* 主函数 */
 /* 主函数 */
 int main()
 {
@@ -120,8 +120,8 @@ int main()
     int index;
     DYNAMIC_ARRAY_T DyArray;
 
-    /* 动态数组初始化:        大小是10个int数据 */
-    Ret = DyArray_init(&DyArray, 10);
+    /* 动态数组初始化 */
+    Ret = DyArray_init(&DyArray, DYNAMIC_ARRAY_SIZE);
     if (0 != Ret)
     {
         return Ret;
