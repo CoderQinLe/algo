@@ -47,7 +47,7 @@ int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
         /* 满足条件，插入 */
         if (elem < array->arr[index])
         {
-            memmove(&array->arr[index+1], &array->arr[index], (array->used - index) * sizeof(int));         
+            memmove(&array->arr[index+1], &array->arr[index], (array->usedSize - index) * sizeof(int));         
             break;
         }
     }
@@ -97,7 +97,7 @@ int DyArray_init(DYNAMIC_ARRAY_T *DArray, int ArraySize)
 {
     DArray->sumSize = ArraySize;
     DArray->usedSize = 0;
-    DArray->arr = (int *)calloc(ArraySize * sizeof(int));
+    DArray->arr = (int *)malloc(ArraySize * sizeof(int));
     if (NULL == DArray->arr)
     {
         return -1;
