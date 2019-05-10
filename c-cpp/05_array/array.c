@@ -112,6 +112,7 @@ int DyArray_finit(DYNAMIC_ARRAY_T *DArray)
     free(DArray->arr);
 }
 
+/* Ö÷º¯Êı */
 int main()
 {
     int Ret;
