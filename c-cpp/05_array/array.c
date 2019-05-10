@@ -1,20 +1,20 @@
 /*
-    ÊµÏÖÒ»¸öÖ§³Ö¶¯Ì¬À©ÈİµÄÊı×é
+    å®ç°ä¸€ä¸ªæ”¯æŒåŠ¨æ€æ‰©å®¹çš„æ•°ç»„
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/* ¶¯Ì¬Êı×é½á¹¹ÌåµÄ¶¨Òå */
+/* åŠ¨æ€æ•°ç»„ç»“æ„ä½“çš„å®šä¹‰ */
 typedef struct array 
 {
-    int size;       /* ¶¯Ì¬Êı×é´óĞ¡ */
-    int used;       /* ÒÑ¾­Ê¹ÓÃµÄ´óĞ¡ */
-    int *arr;
+    int size;       /* åŠ¨æ€æ•°ç»„å¤§å° */
+    int used;       /* å·²ç»ä½¿ç”¨çš„å¤§å° */
+    int *arr;       /* åŠ¨æ€æ•°ç»„æŒ‡é’ˆ */
 } DYNAMIC_ARRAY_T;
 
-/* ¶¯Ì¬Êı×éµÄ±éÀú */
+/* åŠ¨æ€æ•°ç»„çš„éå† */
 void DyArray_dump(DYNAMIC_ARRAY_T *array)
 {
     int index;
@@ -25,7 +25,7 @@ void DyArray_dump(DYNAMIC_ARRAY_T *array)
     }
 }
 
-/* ¶¯Ì¬Êı×é²åÈë²Ù×÷ */
+/* åŠ¨æ€æ•°ç»„æ’å…¥æ“ä½œ */
 int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
 {
     int index = 0;
@@ -34,7 +34,7 @@ int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
         return -1;
     }
 
-    /* ²åÈëÔªËØ£º´ÓĞ¡µ½´óµÄË³ĞòÅÅĞò£¬ÖØ¸´ ²»²åÈë */
+    /* æ’å…¥å…ƒç´ ï¼šä»å°åˆ°å¤§çš„é¡ºåºæ’åºï¼Œé‡å¤ ä¸æ’å…¥ */
     for (index = 0; index < array->used; index++) 
     {
         if (elem == array->arr[index])
@@ -43,7 +43,7 @@ int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
         }
 
 
-        /* Âú×ãÌõ¼ş£¬²åÈë */
+        /* æ»¡è¶³æ¡ä»¶ï¼Œæ’å…¥ */
         if (elem < array->arr[index])
         {
             memmove(&array->arr[index+1], &array->arr[index], (array->used - index) * sizeof(int));         
@@ -51,13 +51,13 @@ int DyArray_insert(DYNAMIC_ARRAY_T *array, int elem)
         }
     }
 
-    /* ²åÈëÎ²²¿ */     
+    /* æ’å…¥å°¾éƒ¨ */     
     array->arr[index] = elem;
     array->used++;
     return index;
 }
 
-/* ¶¯Ì¬Êı×éÉ¾³ı²Ù×÷ */
+/* åŠ¨æ€æ•°ç»„åˆ é™¤æ“ä½œ */
 int DyArray_delete(DYNAMIC_ARRAY_T *array, int index)
 {
     if (index < 0 || index >= array->used)
@@ -70,7 +70,7 @@ int DyArray_delete(DYNAMIC_ARRAY_T *array, int index)
     return 0;
 }
 
-/* ¶¯Ì¬Êı×éËÑË÷²Ù×÷,·µ»ØË÷Òı */
+/* åŠ¨æ€æ•°ç»„æœç´¢æ“ä½œ,è¿”å›ç´¢å¼• */
 int DyArray_search(DYNAMIC_ARRAY_T *array, int elem)
 {
     int index = 0;
@@ -91,7 +91,7 @@ int DyArray_search(DYNAMIC_ARRAY_T *array, int elem)
     return -1;
 }
 
-/* ¶¯Ì¬Êı×é³õÊ¼»¯²Ù×÷ */
+/* åŠ¨æ€æ•°ç»„åˆå§‹åŒ–æ“ä½œ */
 int DyArray_init(DYNAMIC_ARRAY_T *DArray, int ArraySize)
 {
     DArray->size = ArraySize;
@@ -104,7 +104,7 @@ int DyArray_init(DYNAMIC_ARRAY_T *DArray, int ArraySize)
     return 0;
 }
 
-/* ¶¯Ì¬Êı×é    È¥³õÊ¼»¯²Ù×÷ */
+/* åŠ¨æ€æ•°ç»„    å»åˆå§‹åŒ–æ“ä½œ */
 int DyArray_finit(DYNAMIC_ARRAY_T *DArray)
 {
     DArray->size = 0;
@@ -112,36 +112,37 @@ int DyArray_finit(DYNAMIC_ARRAY_T *DArray)
     free(DArray->arr);
 }
 
-/* Ö÷º¯Êı */
+/* ä¸»å‡½æ•° */
+/* ä¸»å‡½æ•° */
 int main()
 {
     int Ret;
     int index;
     DYNAMIC_ARRAY_T DyArray;
 
-    /* ¶¯Ì¬Êı×é³õÊ¼»¯:        ´óĞ¡ÊÇ10¸öintÊı¾İ */
+    /* åŠ¨æ€æ•°ç»„åˆå§‹åŒ–:        å¤§å°æ˜¯10ä¸ªintæ•°æ® */
     Ret = DyArray_init(&DyArray, 10);
     if (0 != Ret)
     {
         return Ret;
     }
 
-    /* ²åÈëÊı¾İ */
+    /* æ’å…¥æ•°æ® */
     DyArray_insert(&DyArray, 1);
     DyArray_insert(&DyArray, 3);
     DyArray_insert(&DyArray, 2);
     printf("=== insert 1, 3, 2\n");
 
-    /* ±éÀú²¢´òÓ¡¶¯Ì¬Êı×é, */
+    /* éå†å¹¶æ‰“å°åŠ¨æ€æ•°ç»„, */
     DyArray_dump(&DyArray);
 
-    /* ËÑË÷¶¯Ì¬Êı×éÖĞµÄÊı¾İ */
+    /* æœç´¢åŠ¨æ€æ•°ç»„ä¸­çš„æ•°æ® */
     index = DyArray_search(&DyArray, 2);
     printf("2 is at position %d\n", index);
     index = DyArray_search(&DyArray, 9);
     printf("9 is at position %d\n", index);
     
-    /* É¾³ı¶¯Ì¬Êı×éÖĞµÄÊı¾İ */
+    /* åˆ é™¤åŠ¨æ€æ•°ç»„ä¸­çš„æ•°æ® */
     printf("=== delete [6] element \n");
     DyArray_delete(&DyArray, 6);
     DyArray_dump(&DyArray);

@@ -6,19 +6,19 @@
 
 typedef struct Array
 {
-    // pָ��Ŀռ��С
+    // p指针的空间大小
     size_t size;
-    // pָ���Ѿ�ʹ�õĿռ��С
+    // p指针已经使用的空间大小
     size_t len;
-    // �������͵Ĵ�С
+    // 数据类型的大小
     size_t typeSize;
-    // ֵ���ƺ���
+    // 值复制函数
     void(*dup)(void *ptr, void *key);
-    // ֵ�ͷź���
+    // 值释放函数
     void(*free)(void *ptr);
-    // ֵ�ȽϺ���
+    // 值比较函数
     int(*match)(void *ptr, void *key);
-    // ������ݵ�ָ��
+    // 存放数据的指针
     void   *p;
 }Array;
 
