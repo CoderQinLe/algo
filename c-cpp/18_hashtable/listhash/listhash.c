@@ -24,7 +24,7 @@
  output:
  return: hashtab *          哈希表指针
 ************************************************************/
-hashtab * hashtab_create(int size, hash_key_func hash_value, keycmp_func keycmp, hash_node_free_func hash_node_free)
+hashtab *hashtab_create(int size, hash_key_func hash_value, keycmp_func keycmp, hash_node_free_func hash_node_free)
 {
     hashtab *h = NULL;
     int i = 0;

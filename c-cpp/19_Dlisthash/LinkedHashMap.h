@@ -14,7 +14,7 @@
 typedef struct _lisked_hash_map_node
 {
     void *key; /*键*/
-    void *data; /*数据*/ZZ
+    void *data; /*数据*/
     struct _lisked_hash_map_node *next; /*哈希冲突时，用来挂接后续节点*/
     struct list_head Dlist_node;/*用来挂接双向链表*/
 }LiskedHashMapNode;
